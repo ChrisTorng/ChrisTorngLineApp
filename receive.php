@@ -8,10 +8,11 @@
  fwrite($myfile, "\xEF\xBB\xBF".json_decode($json_obj)); //在字串前加入\xEF\xBB\xBF轉成utf8格式
  fclose($myfile);
  echo("3");
+ echo($json_obj);
 
-//產生回傳給line server的格式
-	$sender_userid = $json_obj->events[0]->source->userId;
-	$sender_txt = $json_obj->events[0]->message->text;
+ //產生回傳給line server的格式
+ $sender_userid = $json_obj->events[0]->source->userId;
+ $sender_txt = $json_obj->events[0]->message->text;
  $response = array (
 				"to" => $sender_userid,
 				"messages" => array (
@@ -22,17 +23,24 @@
 				)
 		);
  echo("4");
+ echo($response);
+
+ $myfile = fopen("log2.txt","w+") or die("Unable to open file!"); //設定一個log.txt 用來印訊息
+ fwrite($myfile, "\xEF\xBB\xBF".json_encode($response)); //在字串前加入\xEF\xBB\xBF轉成utf8格式
+ fclose($myfile);
+ echo("5");
 
  //回傳給line server
-	$header[] = "Content-Type: application/json";
-	$header[] = "Authorization: Bearer FjeOS2XLpz35RcwPQ8TVgtUF8znXP8CKYqQmJLkhNM3xdwVaUg2kfkRqKIifkGm0HMaO1Eq/LjuZxzcDy1sLutRhi/y0EPVjO/UYpBEiD8VLlMWHyvAUMDNJ0Q0tF0XCRtubA5l1kQJ9v6UFnNDr6AdB04t89/1O/w1cDnyilFU=";
-	$ch = curl_init("https://api.line.me/v2/bot/message/push");                                                                      
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($response));                                                                  
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);                                                                                                   
-	$result = curl_exec($ch);
-	curl_close($ch); 
- echo("5");
+ $header[] = "Content-Type: application/json";
+ $header[] = "Authorization: Bearer n4mZIQp9UqWXhCEgIg1fLmyjUeDMgCe/bF+4EOBDZ7fGscOgNGFsHTr3fGco/E7A5hq7A7jiDszSCk/j3pVVPbx7nf0E+FKe5jX6syQGOxO7kwp5lmZ3zRES1qxceq/N+/E9Qy5gSDbBx56l8sScTwdB04t89/1O/w1cDnyilFU=";
+ $ch = curl_init("https://api.line.me/v2/bot/message/push");                                                                      
+ curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($response));                                                                  
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+ curl_setopt($ch, CURLOPT_HTTPHEADER, $header);                                                                                                   
+ $result = curl_exec($ch);
+ curl_close($ch); 
+ echo("6");
+ echo($result);
 
 ?>

@@ -1,3 +1,3 @@
 <?php
-echo "hello I'm ChrisTorng"
+echo "Hello! I'm ChrisTorng"
 ?>

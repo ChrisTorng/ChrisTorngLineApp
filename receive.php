@@ -5,10 +5,10 @@
  echo("2");
 
  $myfile = fopen("log.txt","w+") or die("Unable to open file!"); //設定一個log.txt 用來印訊息
- fwrite($myfile, "\xEF\xBB\xBF".json_decode($json_obj)); //在字串前加入\xEF\xBB\xBF轉成utf8格式
+ fwrite($myfile, "\xEF\xBB\xBF".json_decode($json_str)); //在字串前加入\xEF\xBB\xBF轉成utf8格式
  fclose($myfile);
  echo("3");
- echo($json_obj);
+ echo($json_str);
 
  //產生回傳給line server的格式
  $sender_userid = $json_obj->events[0]->source->userId;

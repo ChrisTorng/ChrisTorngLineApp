@@ -1,14 +1,14 @@
 <?php
- echo("1");
+ echo("1<br>");
  $json_str = file_get_contents('php://input'); //接收REQUEST的BODY
+ echo($json_str);
  $json_obj = json_decode($json_str); //轉JSON格式
- echo("2");
+ echo("<br>2<br>");
 
  $myfile = fopen("log.txt","w+") or die("Unable to open file!"); //設定一個log.txt 用來印訊息
- fwrite($myfile, "\xEF\xBB\xBF".json_decode($json_str)); //在字串前加入\xEF\xBB\xBF轉成utf8格式
+ fwrite($myfile, "\xEF\xBB\xBF".$json_str); //在字串前加入\xEF\xBB\xBF轉成utf8格式
  fclose($myfile);
- echo("3");
- echo($json_str);
+ echo("3<br>");
 
  //產生回傳給line server的格式
  $sender_userid = $json_obj->events[0]->source->userId;
@@ -22,13 +22,14 @@
 					)
 				)
 		);
- echo("4");
+ echo("4<br>");
  echo($response);
+ echo("<br>");
 
  $myfile = fopen("log2.txt","w+") or die("Unable to open file!"); //設定一個log.txt 用來印訊息
  fwrite($myfile, "\xEF\xBB\xBF".json_encode($response)); //在字串前加入\xEF\xBB\xBF轉成utf8格式
  fclose($myfile);
- echo("5");
+ echo("5<br>");
 
  //回傳給line server
  $header[] = "Content-Type: application/json";
@@ -40,7 +41,7 @@
  curl_setopt($ch, CURLOPT_HTTPHEADER, $header);                                                                                                   
  $result = curl_exec($ch);
  curl_close($ch); 
- echo("6");
+ echo("6<br>");
  echo($result);
 
 ?>
